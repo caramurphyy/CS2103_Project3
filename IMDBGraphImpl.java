@@ -9,7 +9,7 @@ public class IMDBGraphImpl implements IMDBGraph {
 	// this might be: "/Users/sarah/IMDB". On Windows, this might be:
 	// "C:/Users/sarah/IMDB". (These are made-up examples but give a sense
 	// of the required syntax.)
-	private static final String IMDB_DIRECTORY = "/Users/jake/Courses/CS2103/Graph/IMDB";
+	private static final String IMDB_DIRECTORY = "/Users/caramurphy/CS2103/Project3/";
 	private static final int PROGRESS_FREQUENCY = 10000;
 
 	private static class IMDBNode implements Node {
@@ -30,8 +30,6 @@ public class IMDBGraphImpl implements IMDBGraph {
 		}
 	}
 
-	private final List<IMDBNode> _actors = new ArrayList<IMDBNode>();
-	private final List<IMDBNode> _movies = new ArrayList<IMDBNode>();
 	private final Map<String, IMDBNode> _actorNamesToNodes = new HashMap<>();
 	private final Map<String, IMDBNode> _movieNamesToNodes = new HashMap<>();
 
@@ -100,7 +98,7 @@ public class IMDBGraphImpl implements IMDBGraph {
 					// TODO: finish me...
 					for (String movieID : knownFor) {
 
-						final IMDBNode movieNode = new IMDBNode(idsToTitles.get(movieID));
+						final IMDBNode movieNode = _movieNamesToNodes.get(idsToTitles.get(movieID));
 						movieNode._neighbors.add(actorNode);
 						actorNode._neighbors.add(movieNode);
 					}
@@ -168,9 +166,6 @@ public class IMDBGraphImpl implements IMDBGraph {
 		}
 		// Now parse the actors
 		processActors(actorsFilename, idsToTitles);
-
-		_actors.retainAll(_actorNamesToNodes.values());
-		_movies.retainAll(_movieNamesToNodes.values());
 	}
 
 	/**
@@ -179,7 +174,7 @@ public class IMDBGraphImpl implements IMDBGraph {
 	 * @return the list of movies.
 	 */
 	public Collection<? extends Node> getMovies() {
-		return _movies;
+		return _movieNamesToNodes.values();
 	}
 
 	/**
@@ -188,7 +183,7 @@ public class IMDBGraphImpl implements IMDBGraph {
 	 * @return the list of actors.
 	 */
 	public Collection<? extends Node> getActors() {
-		return _actors;
+		return _actorNamesToNodes.values();
 	}
 
 	/**
@@ -197,8 +192,8 @@ public class IMDBGraphImpl implements IMDBGraph {
 	 */
 	public static void main(String[] args) {
 		try {
-			final IMDBGraph graph = new IMDBGraphImpl(IMDB_DIRECTORY + "/name.basics.tsv.gz",
-					IMDB_DIRECTORY + "/title.basics.tsv.gz");
+			final IMDBGraph graph = new IMDBGraphImpl(IMDB_DIRECTORY + "/testActors.tsv",
+					IMDB_DIRECTORY + "/testMovies.tsv");
 			System.out.println(graph.getActors().size());
 
 			final GraphSearchEngine graphSearcher = new GraphSearchEngineImpl();
