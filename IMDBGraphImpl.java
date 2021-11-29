@@ -95,16 +95,13 @@ public class IMDBGraphImpl implements IMDBGraph {
 					// and set the neighbors of the new actor node appropriately.
 					// Also set the actor to be a neighbor of each of the actor's movies.
 					final IMDBNode actorNode = new IMDBNode(finalName);
-					// TODO: finish me...
 					for (String movieID : knownFor) {
-
 						final IMDBNode movieNode = _movieNamesToNodes.get(idsToTitles.get(movieID));
 						movieNode._neighbors.add(actorNode);
 						actorNode._neighbors.add(movieNode);
 					}
 
 					_actorNamesToNodes.put(finalName, actorNode);
-
 				}
 			}
 		}

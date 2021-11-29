@@ -10,6 +10,7 @@ public class GraphSearchEngineImpl implements GraphSearchEngine {
 	public GraphSearchEngineImpl() {
 	}
 
+	// TODO: add comments
 	public List<Node> findShortestPath(Node s, Node t) {
 		List<Node> shortestPath = new ArrayList<Node>();
 		Map<Node, Node> parentNodes = new HashMap<Node, Node>();
@@ -49,7 +50,7 @@ public class GraphSearchEngineImpl implements GraphSearchEngine {
 			}
 			shortestPath.add(s);
 			Collections.reverse(shortestPath);
-			return shortestPath; // TODO implement me.
+			return shortestPath;
 		}
 		return null;
 	}
