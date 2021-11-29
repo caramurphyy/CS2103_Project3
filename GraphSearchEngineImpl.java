@@ -1,7 +1,4 @@
-import java.io.*;
 import java.util.*;
-import java.util.stream.*;
-import java.util.function.*;
 
 /**
  * Implements the GraphSearchEngine interface.
@@ -10,17 +7,24 @@ public class GraphSearchEngineImpl implements GraphSearchEngine {
 	public GraphSearchEngineImpl() {
 	}
 
-	// TODO: add comments
-	public List<Node> findShortestPath(Node s, Node t) {
+	/**
+	 * Finds the shortest path between source and target.
+	 * Returns an empty null if no path found.
+	 * 
+	 * @param source is the first node to start the path from
+	 * @param target is where to end the path
+	 * @return List<Node>
+	 */
+	public List<Node> findShortestPath(Node source, Node target) {
 		List<Node> shortestPath = new ArrayList<Node>();
 		Map<Node, Node> parentNodes = new HashMap<Node, Node>();
 
 		Set<Node> visited = new HashSet<Node>();
 		Queue<Node> queue = new LinkedList<Node>();
 
-		Boolean foundT = false;
+		Boolean foundTarget = false;
 
-		queue.add(s);
+		queue.add(source);
 
 		while (!queue.isEmpty()) {
 			Node node = queue.remove();
@@ -31,27 +35,28 @@ public class GraphSearchEngineImpl implements GraphSearchEngine {
 					parentNodes.put(child, node);
 				}
 
-				if (child == t) {
+				if (child == target) {
+					// We have found a path between the source and target
 					queue.clear();
-					foundT = true;
+					foundTarget = true;
 					break;
 				}
-
 			}
-
 		}
 
-		if (foundT) {
-
-			Node currentNode = t;
-			while (currentNode != s) {
+		if (foundTarget) {
+			// Backtrack using parentNodes from target until we reach source
+			Node currentNode = target;
+			while (currentNode != source) {
 				shortestPath.add(currentNode);
 				currentNode = parentNodes.get(currentNode);
 			}
-			shortestPath.add(s);
+
+			shortestPath.add(source);
 			Collections.reverse(shortestPath);
 			return shortestPath;
 		}
-		return null;
+
+		return null; // No path found
 	}
 }
